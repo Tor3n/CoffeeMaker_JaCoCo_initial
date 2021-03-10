@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CoffeeMaker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc326.coffeemaker</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CoffeeMaker (edu.ncsu.csc326.coffeemaker)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CoffeeMaker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (5/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65,2%
+  </span>
+  <span class="absValue">
+    (15/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc326.coffeemaker;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * @author Sarah Heckman
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class CoffeeMaker {
+<i>9</i>&nbsp;	/** Array of recipes in coffee maker */
+<i>10</i>&nbsp;	private static RecipeBook recipeBook;
+<i>11</i>&nbsp;	/** Inventory of the coffee maker */
+<i>12</i>&nbsp;    private static Inventory inventory;
+<i>13</i>&nbsp;	
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Constructor for the coffee maker
+<i>16</i>&nbsp;     *
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;	public CoffeeMaker() {</b>
+<b class="fc"><i>19</i>&nbsp;	    recipeBook = new RecipeBook();</b>
+<b class="fc"><i>20</i>&nbsp;		inventory = new Inventory();</b>
+<b class="fc"><i>21</i>&nbsp;	}</b>
+<i>22</i>&nbsp;	
+<i>23</i>&nbsp;	/**
+<i>24</i>&nbsp;	 * Returns true if the recipe is added to the
+<i>25</i>&nbsp;	 * list of recipes in the CoffeeMaker and false
+<i>26</i>&nbsp;	 * otherwise.
+<i>27</i>&nbsp;	 * @param r
+<i>28</i>&nbsp;	 * @return boolean
+<i>29</i>&nbsp;	 */
+<i>30</i>&nbsp;	public boolean addRecipe(Recipe r) {
+<b class="fc"><i>31</i>&nbsp;		return recipeBook.addRecipe(r);</b>
+<i>32</i>&nbsp;	}
+<i>33</i>&nbsp;	
+<i>34</i>&nbsp;	/**
+<i>35</i>&nbsp;	 * Returns the name of the successfully deleted recipe
+<i>36</i>&nbsp;	 * or null if the recipe cannot be deleted.
+<i>37</i>&nbsp;	 * 
+<i>38</i>&nbsp;	 * @param recipeToDelete
+<i>39</i>&nbsp;	 * @return String
+<i>40</i>&nbsp;	 */
+<i>41</i>&nbsp;	public String deleteRecipe(int recipeToDelete) {
+<b class="nc"><i>42</i>&nbsp;		return recipeBook.deleteRecipe(recipeToDelete);</b>
+<i>43</i>&nbsp;	}
+<i>44</i>&nbsp;	
+<i>45</i>&nbsp;	/**
+<i>46</i>&nbsp;	 * Returns the name of the successfully edited recipe
+<i>47</i>&nbsp;	 * or null if the recipe cannot be edited.
+<i>48</i>&nbsp;	 * @param recipeToEdit
+<i>49</i>&nbsp;	 * @param r
+<i>50</i>&nbsp;	 * @return String
+<i>51</i>&nbsp;	 */
+<i>52</i>&nbsp;	public String editRecipe(int recipeToEdit, Recipe r) {
+<b class="nc"><i>53</i>&nbsp;		return recipeBook.editRecipe(recipeToEdit, r);</b>
+<i>54</i>&nbsp;	}
+<i>55</i>&nbsp;    
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Returns true if inventory was successfully added
+<i>58</i>&nbsp;     * @param amtCoffee
+<i>59</i>&nbsp;     * @param amtMilk
+<i>60</i>&nbsp;     * @param amtSugar
+<i>61</i>&nbsp;     * @param amtChocolate
+<i>62</i>&nbsp;     * @return boolean
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public synchronized void addInventory(String amtCoffee, String amtMilk, String amtSugar, String amtChocolate) throws InventoryException {
+<b class="fc"><i>65</i>&nbsp;	    inventory.addCoffee(amtCoffee);</b>
+<b class="fc"><i>66</i>&nbsp;	    inventory.addMilk(amtMilk);</b>
+<b class="fc"><i>67</i>&nbsp;	    inventory.addSugar(amtSugar);</b>
+<b class="nc"><i>68</i>&nbsp;	    inventory.addChocolate(amtChocolate);</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;    
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Returns the inventory of the coffee maker
+<i>73</i>&nbsp;     * @return Inventory
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public synchronized String checkInventory() {
+<b class="nc"><i>76</i>&nbsp;        return inventory.toString();</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;    
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Returns the change of a user&#39;s beverage purchase, or
+<i>81</i>&nbsp;     * the user&#39;s money if the beverage cannot be made
+<i>82</i>&nbsp;     * @param r
+<i>83</i>&nbsp;     * @param amtPaid
+<i>84</i>&nbsp;     * @return int
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    public synchronized int makeCoffee(int recipeToPurchase, int amtPaid) {
+<b class="fc"><i>87</i>&nbsp;        int change = 0;</b>
+<i>88</i>&nbsp;        
+<b class="fc"><i>89</i>&nbsp;        if (getRecipes()[recipeToPurchase] == null) {</b>
+<b class="nc"><i>90</i>&nbsp;        	change = amtPaid;</b>
+<b class="fc"><i>91</i>&nbsp;        } else if (getRecipes()[recipeToPurchase].getPrice() &lt;= amtPaid) {</b>
+<b class="fc"><i>92</i>&nbsp;        	if (inventory.useIngredients(getRecipes()[recipeToPurchase])) {</b>
+<b class="fc"><i>93</i>&nbsp;        		change = amtPaid - getRecipes()[recipeToPurchase].getPrice();</b>
+<i>94</i>&nbsp;        	} else {
+<b class="nc"><i>95</i>&nbsp;        		change = amtPaid;</b>
+<i>96</i>&nbsp;        	}
+<i>97</i>&nbsp;        } else {
+<b class="nc"><i>98</i>&nbsp;        	change = amtPaid;</b>
+<i>99</i>&nbsp;        }
+<i>100</i>&nbsp;        
+<b class="fc"><i>101</i>&nbsp;        return change;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;	/**
+<i>105</i>&nbsp;	 * Returns the list of Recipes in the RecipeBook.
+<i>106</i>&nbsp;	 * @return Recipe []
+<i>107</i>&nbsp;	 */
+<i>108</i>&nbsp;	public synchronized Recipe[] getRecipes() {
+<b class="fc"><i>109</i>&nbsp;		return recipeBook.getRecipes();</b>
+<i>110</i>&nbsp;	}
+<i>111</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-10 12:58</div>
+</div>
+</body>
+</html>

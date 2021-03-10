@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RecipeBook</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc326.coffeemaker</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RecipeBook (edu.ncsu.csc326.coffeemaker)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RecipeBook</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55,6%
+  </span>
+  <span class="absValue">
+    (15/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc326.coffeemaker;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class RecipeBook {
+<i>4</i>&nbsp;	
+<i>5</i>&nbsp;	/** Array of recipes in coffee maker*/
+<i>6</i>&nbsp;	private Recipe [] recipeArray;
+<i>7</i>&nbsp;	/** Number of recipes in coffee maker */
+<b class="fc"><i>8</i>&nbsp;	private final int NUM_RECIPES = 4; </b>
+<i>9</i>&nbsp;	
+<i>10</i>&nbsp;	/**
+<i>11</i>&nbsp;	 * Default constructor for a RecipeBook.
+<i>12</i>&nbsp;	 */
+<b class="fc"><i>13</i>&nbsp;	public RecipeBook() {</b>
+<b class="fc"><i>14</i>&nbsp;		recipeArray = new Recipe[NUM_RECIPES];</b>
+<b class="fc"><i>15</i>&nbsp;	}</b>
+<i>16</i>&nbsp;	
+<i>17</i>&nbsp;	/**
+<i>18</i>&nbsp;	 * Returns the recipe array.
+<i>19</i>&nbsp;	 * @param r
+<i>20</i>&nbsp;	 * @return Recipe[]
+<i>21</i>&nbsp;	 */
+<i>22</i>&nbsp;	public synchronized Recipe[] getRecipes() {
+<b class="fc"><i>23</i>&nbsp;		return recipeArray;</b>
+<i>24</i>&nbsp;	}
+<i>25</i>&nbsp;	
+<i>26</i>&nbsp;	public synchronized boolean addRecipe(Recipe r) {
+<i>27</i>&nbsp;		//Assume recipe doesn&#39;t exist in the array until 
+<i>28</i>&nbsp;		//find out otherwise
+<b class="fc"><i>29</i>&nbsp;		boolean exists = false;</b>
+<i>30</i>&nbsp;		//Check that recipe doesn&#39;t already exist in array
+<b class="fc"><i>31</i>&nbsp;		for (int i = 0; i &lt; recipeArray.length; i++ ) {</b>
+<b class="fc"><i>32</i>&nbsp;			if (r.equals(recipeArray[i])) {</b>
+<b class="nc"><i>33</i>&nbsp;				exists = true;</b>
+<i>34</i>&nbsp;			}
+<i>35</i>&nbsp;		}
+<i>36</i>&nbsp;		//Assume recipe cannot be added until find an empty
+<i>37</i>&nbsp;		//spot
+<b class="fc"><i>38</i>&nbsp;		boolean added = false;</b>
+<i>39</i>&nbsp;		//Check for first empty spot in array
+<b class="fc"><i>40</i>&nbsp;		if (!exists) {</b>
+<b class="fc"><i>41</i>&nbsp;			for (int i = 0; i &lt; recipeArray.length &amp;&amp; !added; i++) {</b>
+<b class="fc"><i>42</i>&nbsp;				if (recipeArray[i] == null) {</b>
+<b class="fc"><i>43</i>&nbsp;					recipeArray[i] = r;</b>
+<b class="fc"><i>44</i>&nbsp;					added = true;</b>
+<i>45</i>&nbsp;				}
+<i>46</i>&nbsp;			}
+<i>47</i>&nbsp;		}
+<b class="fc"><i>48</i>&nbsp;		return added;</b>
+<i>49</i>&nbsp;	}
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;	/**
+<i>52</i>&nbsp;	 * Returns the name of the recipe deleted at the position specified
+<i>53</i>&nbsp;	 * and null if the recipe does not exist.
+<i>54</i>&nbsp;	 * @param recipeToDelete
+<i>55</i>&nbsp;	 * @return String
+<i>56</i>&nbsp;	 */
+<i>57</i>&nbsp;	public synchronized String deleteRecipe(int recipeToDelete) {
+<b class="nc"><i>58</i>&nbsp;		if (recipeArray[recipeToDelete] != null) {</b>
+<b class="nc"><i>59</i>&nbsp;			String recipeName = recipeArray[recipeToDelete].getName();</b>
+<b class="nc"><i>60</i>&nbsp;			recipeArray[recipeToDelete] = new Recipe();</b>
+<b class="nc"><i>61</i>&nbsp;			return recipeName;</b>
+<i>62</i>&nbsp;		} else {
+<b class="nc"><i>63</i>&nbsp;			return null;</b>
+<i>64</i>&nbsp;		}
+<i>65</i>&nbsp;	}
+<i>66</i>&nbsp;	
+<i>67</i>&nbsp;	/**
+<i>68</i>&nbsp;	 * Returns the name of the recipe edited at the position specified
+<i>69</i>&nbsp;	 * and null if the recipe does not exist.
+<i>70</i>&nbsp;	 * @param recipeToEdit
+<i>71</i>&nbsp;	 * @param newRecipe
+<i>72</i>&nbsp;	 * @return String
+<i>73</i>&nbsp;	 */
+<i>74</i>&nbsp;	public synchronized String editRecipe(int recipeToEdit, Recipe newRecipe) {
+<b class="nc"><i>75</i>&nbsp;		if (recipeArray[recipeToEdit] != null) {</b>
+<b class="nc"><i>76</i>&nbsp;			String recipeName = recipeArray[recipeToEdit].getName();</b>
+<b class="nc"><i>77</i>&nbsp;			newRecipe.setName(&quot;&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;			recipeArray[recipeToEdit] = newRecipe;</b>
+<b class="nc"><i>79</i>&nbsp;			return recipeName;</b>
+<i>80</i>&nbsp;		} else {
+<b class="nc"><i>81</i>&nbsp;			return null;</b>
+<i>82</i>&nbsp;		}
+<i>83</i>&nbsp;	}
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-10 12:58</div>
+</div>
+</body>
+</html>

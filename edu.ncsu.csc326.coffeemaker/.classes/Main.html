@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Main</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc326.coffeemaker</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Main (edu.ncsu.csc326.coffeemaker)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 134)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc326.coffeemaker;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.BufferedReader;
+<i>4</i>&nbsp;import java.io.IOException;
+<i>5</i>&nbsp;import java.io.InputStreamReader;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
+<i>8</i>&nbsp;import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * 
+<i>12</i>&nbsp; * @author Sarah Heckman
+<i>13</i>&nbsp; *
+<i>14</i>&nbsp; * Starts the console UI for the CoffeeMaker
+<i>15</i>&nbsp; */
+<b class="nc"><i>16</i>&nbsp;public class Main {</b>
+<i>17</i>&nbsp;    private static CoffeeMaker coffeeMaker;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Prints the main menu and handles user input for 
+<i>21</i>&nbsp;     * main menu commands.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public static void mainMenu() {
+<b class="nc"><i>24</i>&nbsp;        System.out.println(&quot;1. Add a recipe&quot;);</b>
+<b class="nc"><i>25</i>&nbsp;        System.out.println(&quot;2. Delete a recipe&quot;);</b>
+<b class="nc"><i>26</i>&nbsp;        System.out.println(&quot;3. Edit a recipe&quot;);</b>
+<b class="nc"><i>27</i>&nbsp;        System.out.println(&quot;4. Add inventory&quot;);</b>
+<b class="nc"><i>28</i>&nbsp;        System.out.println(&quot;5. Check inventory&quot;);</b>
+<b class="nc"><i>29</i>&nbsp;        System.out.println(&quot;6. Make coffee&quot;);</b>
+<b class="nc"><i>30</i>&nbsp;        System.out.println(&quot;0. Exit\n&quot;);</b>
+<i>31</i>&nbsp;        
+<i>32</i>&nbsp;        //Get user input
+<i>33</i>&nbsp;        try {
+<b class="nc"><i>34</i>&nbsp;        	int userInput = Integer.parseInt(inputOutput(&quot;Please press the number that corresponds to what you would like the coffee maker to do.&quot;));</b>
+<i>35</i>&nbsp;        	
+<b class="nc"><i>36</i>&nbsp;        	if (userInput &gt;= 0 &amp;&amp; userInput &lt;=6) {</b>
+<b class="nc"><i>37</i>&nbsp;		        if (userInput == 1) addRecipe();</b>
+<b class="nc"><i>38</i>&nbsp;		        if (userInput == 2) deleteRecipe();</b>
+<b class="nc"><i>39</i>&nbsp;		        if (userInput == 3) editRecipe();</b>
+<b class="nc"><i>40</i>&nbsp;		        if (userInput == 4) addInventory();</b>
+<b class="nc"><i>41</i>&nbsp;		        if (userInput == 5) checkInventory();</b>
+<b class="nc"><i>42</i>&nbsp;		        if (userInput == 6) makeCoffee();</b>
+<b class="nc"><i>43</i>&nbsp;		        if (userInput == 0) System.exit(0);</b>
+<i>44</i>&nbsp;        	} else {
+<b class="nc"><i>45</i>&nbsp;        		System.out.println(&quot;Please enter a number from 0 - 6&quot;);</b>
+<b class="nc"><i>46</i>&nbsp;            	mainMenu();</b>
+<i>47</i>&nbsp;        	}
+<b class="nc"><i>48</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc"><i>49</i>&nbsp;        	System.out.println(&quot;Please enter a number from 0 - 6&quot;);</b>
+<b class="nc"><i>50</i>&nbsp;        	mainMenu();</b>
+<b class="nc"><i>51</i>&nbsp;        }</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;    
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * The add recipe user interface that process user input.
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;	public static void addRecipe() {
+<i>58</i>&nbsp;		
+<i>59</i>&nbsp;	    //Read in recipe name
+<b class="nc"><i>60</i>&nbsp;	    String name = inputOutput(&quot;\nPlease enter the recipe name: &quot;);</b>
+<i>61</i>&nbsp;	    
+<i>62</i>&nbsp;	    //Read in recipe price
+<b class="nc"><i>63</i>&nbsp;	    String priceString = inputOutput(&quot;\nPlease enter the recipe price: $&quot;);</b>
+<i>64</i>&nbsp;	    	    
+<i>65</i>&nbsp;	    //Read in amt coffee
+<b class="nc"><i>66</i>&nbsp;	    String coffeeString = inputOutput(&quot;\nPlease enter the units of coffee in the recipe: &quot;);</b>
+<i>67</i>&nbsp;	    	    
+<i>68</i>&nbsp;	    //Read in amt milk
+<b class="nc"><i>69</i>&nbsp;	    String milkString = inputOutput(&quot;\nPlease enter the units of milk in the recipe: &quot;);</b>
+<i>70</i>&nbsp;	    	    
+<i>71</i>&nbsp;	    //Read in amt sugar
+<b class="nc"><i>72</i>&nbsp;	    String sugarString = inputOutput(&quot;\nPlease enter the units of sugar in the recipe: &quot;);</b>
+<i>73</i>&nbsp;	    	    
+<i>74</i>&nbsp;	    //Read in amt chocolate
+<b class="nc"><i>75</i>&nbsp;	    String chocolateString = inputOutput(&quot;\nPlease enter the units of chocolate in the recipe: &quot;);</b>
+<i>76</i>&nbsp;	    	    
+<b class="nc"><i>77</i>&nbsp;		Recipe r = new Recipe();</b>
+<i>78</i>&nbsp;		try {
+<b class="nc"><i>79</i>&nbsp;			r.setName(name);</b>
+<b class="nc"><i>80</i>&nbsp;			r.setPrice(priceString);</b>
+<b class="nc"><i>81</i>&nbsp;			r.setAmtCoffee(coffeeString);</b>
+<b class="nc"><i>82</i>&nbsp;			r.setAmtMilk(milkString);</b>
+<b class="nc"><i>83</i>&nbsp;			r.setAmtSugar(sugarString);</b>
+<b class="nc"><i>84</i>&nbsp;			r.setAmtChocolate(chocolateString);</b>
+<i>85</i>&nbsp;			
+<b class="nc"><i>86</i>&nbsp;			boolean recipeAdded = coffeeMaker.addRecipe(r);</b>
+<i>87</i>&nbsp;		    
+<b class="nc"><i>88</i>&nbsp;		    if(recipeAdded) {</b>
+<b class="nc"><i>89</i>&nbsp;		    	System.out.println(name + &quot; successfully added.\n&quot;);</b>
+<i>90</i>&nbsp;		    } else {
+<b class="nc"><i>91</i>&nbsp;		    	System.out.println(name + &quot; could not be added.\n&quot;);</b>
+<i>92</i>&nbsp;		    }
+<b class="nc"><i>93</i>&nbsp;		} catch (RecipeException e) {</b>
+<b class="nc"><i>94</i>&nbsp;			System.out.println(e.getMessage());</b>
+<i>95</i>&nbsp;		} finally {
+<b class="nc"><i>96</i>&nbsp;			mainMenu();</b>
+<b class="nc"><i>97</i>&nbsp;		}</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;    
+<i>100</i>&nbsp;	/**
+<i>101</i>&nbsp;	 * Delete recipe user interface that processes input.
+<i>102</i>&nbsp;	 */
+<i>103</i>&nbsp;    public static void deleteRecipe() {
+<b class="nc"><i>104</i>&nbsp;        Recipe [] recipes = coffeeMaker.getRecipes();</b>
+<b class="nc"><i>105</i>&nbsp;        for(int i = 0; i &lt; recipes.length; i++) {</b>
+<b class="nc"><i>106</i>&nbsp;        	if (recipes[i] != null) {</b>
+<b class="nc"><i>107</i>&nbsp;        		System.out.println((i+1) + &quot;. &quot; + recipes[i].getName());</b>
+<i>108</i>&nbsp;        	}
+<i>109</i>&nbsp;        }
+<b class="nc"><i>110</i>&nbsp;        int recipeToDelete = recipeListSelection(&quot;Please select the number of the recipe to delete.&quot;);</b>
+<i>111</i>&nbsp;        
+<b class="nc"><i>112</i>&nbsp;	    if(recipeToDelete &lt; 0) {</b>
+<b class="nc"><i>113</i>&nbsp;	    	mainMenu();</b>
+<i>114</i>&nbsp;	    }
+<i>115</i>&nbsp;	    
+<b class="nc"><i>116</i>&nbsp;        String recipeDeleted = coffeeMaker.deleteRecipe(recipeToDelete);</b>
+<i>117</i>&nbsp;        
+<b class="nc"><i>118</i>&nbsp;        if (recipeDeleted != null) {</b>
+<b class="nc"><i>119</i>&nbsp;        	System.out.println(recipeDeleted + &quot; successfully deleted.\n&quot;);</b>
+<i>120</i>&nbsp;        } else {
+<b class="nc"><i>121</i>&nbsp;	        System.out.println(&quot;Selected recipe doesn&#39;t exist and could not be deleted.\n&quot;);</b>
+<i>122</i>&nbsp;        }
+<b class="nc"><i>123</i>&nbsp;        mainMenu();</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;    
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * Edit recipe user interface the processes user input.
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;    public static void editRecipe() {
+<b class="nc"><i>130</i>&nbsp;        Recipe [] recipes = coffeeMaker.getRecipes();</b>
+<b class="nc"><i>131</i>&nbsp;        for(int i = 0; i &lt; recipes.length; i++) {</b>
+<b class="nc"><i>132</i>&nbsp;        	if (recipes[i] != null) {</b>
+<b class="nc"><i>133</i>&nbsp;        		System.out.println((i+1) + &quot;. &quot; + recipes[i].getName());</b>
+<i>134</i>&nbsp;        	}
+<i>135</i>&nbsp;        }
+<b class="nc"><i>136</i>&nbsp;        int recipeToEdit = recipeListSelection(&quot;Please select the number of the recipe to edit.&quot;);</b>
+<i>137</i>&nbsp;        
+<b class="nc"><i>138</i>&nbsp;	    if(recipeToEdit &lt; 0) {</b>
+<b class="nc"><i>139</i>&nbsp;	    	mainMenu();</b>
+<i>140</i>&nbsp;	    }
+<i>141</i>&nbsp;	    
+<i>142</i>&nbsp;	    //Read in recipe price
+<b class="nc"><i>143</i>&nbsp;	    String priceString = inputOutput(&quot;\nPlease enter the recipe price: $&quot;);</b>
+<i>144</i>&nbsp;	    
+<i>145</i>&nbsp;	    //Read in amt coffee
+<b class="nc"><i>146</i>&nbsp;	    String coffeeString = inputOutput(&quot;\nPlease enter the units of coffee in the recipe: &quot;);</b>
+<i>147</i>&nbsp;	    
+<i>148</i>&nbsp;	    //Read in amt milk
+<b class="nc"><i>149</i>&nbsp;	    String milkString = inputOutput(&quot;\nPlease enter the units of milk in the recipe: &quot;);</b>
+<i>150</i>&nbsp;	    
+<i>151</i>&nbsp;	    //Read in amt sugar
+<b class="nc"><i>152</i>&nbsp;	    String sugarString = inputOutput(&quot;\nPlease enter the units of sugar in the recipe: &quot;);</b>
+<i>153</i>&nbsp;	    
+<i>154</i>&nbsp;	    //Read in amt chocolate
+<b class="nc"><i>155</i>&nbsp;	    String chocolateString = inputOutput(&quot;\nPlease enter the units of chocolate in the recipe: &quot;);</b>
+<i>156</i>&nbsp;	    
+<b class="nc"><i>157</i>&nbsp;	    Recipe newRecipe = new Recipe();</b>
+<i>158</i>&nbsp;	    try {
+<b class="nc"><i>159</i>&nbsp;			newRecipe.setPrice(priceString);</b>
+<b class="nc"><i>160</i>&nbsp;			newRecipe.setAmtCoffee(coffeeString);</b>
+<b class="nc"><i>161</i>&nbsp;			newRecipe.setAmtMilk(milkString);</b>
+<b class="nc"><i>162</i>&nbsp;			newRecipe.setAmtSugar(sugarString);</b>
+<b class="nc"><i>163</i>&nbsp;			newRecipe.setAmtChocolate(chocolateString);</b>
+<i>164</i>&nbsp;			
+<b class="nc"><i>165</i>&nbsp;			String recipeEdited = coffeeMaker.editRecipe(recipeToEdit, newRecipe);</b>
+<i>166</i>&nbsp;	        
+<b class="nc"><i>167</i>&nbsp;	        if (recipeEdited != null) {</b>
+<b class="nc"><i>168</i>&nbsp;	        	System.out.println(recipeEdited + &quot; successfully edited.\n&quot;);</b>
+<i>169</i>&nbsp;	        }
+<i>170</i>&nbsp;		    else {
+<b class="nc"><i>171</i>&nbsp;		    	System.out.println(recipeEdited + &quot;could not be edited.\n&quot;);</b>
+<i>172</i>&nbsp;		    }
+<b class="nc"><i>173</i>&nbsp;		} catch (RecipeException e) {</b>
+<b class="nc"><i>174</i>&nbsp;			System.out.println(e.getMessage());</b>
+<i>175</i>&nbsp;		} finally {
+<b class="nc"><i>176</i>&nbsp;			mainMenu();</b>
+<b class="nc"><i>177</i>&nbsp;		}</b>
+<i>178</i>&nbsp;    }
+<i>179</i>&nbsp;    
+<i>180</i>&nbsp;    /**
+<i>181</i>&nbsp;     * Add inventory user interface that processes input.
+<i>182</i>&nbsp;     */
+<i>183</i>&nbsp;    public static void addInventory() {
+<i>184</i>&nbsp;	    //Read in amt coffee
+<b class="nc"><i>185</i>&nbsp;	    String coffeeString = inputOutput(&quot;\nPlease enter the units of coffee to add: &quot;);</b>
+<i>186</i>&nbsp;	    	    
+<i>187</i>&nbsp;	    //Read in amt milk
+<b class="nc"><i>188</i>&nbsp;	    String milkString = inputOutput(&quot;\nPlease enter the units of milk to add: &quot;);</b>
+<i>189</i>&nbsp;	    	    
+<i>190</i>&nbsp;	    //Read in amt sugar
+<b class="nc"><i>191</i>&nbsp;	    String sugarString = inputOutput(&quot;\nPlease enter the units of sugar to add: &quot;);</b>
+<i>192</i>&nbsp;	    	    
+<i>193</i>&nbsp;	    //Read in amt chocolate
+<b class="nc"><i>194</i>&nbsp;	    String chocolateString = inputOutput(&quot;\nPlease enter the units of chocolate to add: &quot;);</b>
+<i>195</i>&nbsp;	    	    
+<i>196</i>&nbsp;        try {
+<b class="nc"><i>197</i>&nbsp;        	coffeeMaker.addInventory(coffeeString, milkString, sugarString, chocolateString);</b>
+<b class="nc"><i>198</i>&nbsp;        	System.out.println(&quot;Inventory successfully added&quot;);</b>
+<b class="nc"><i>199</i>&nbsp;        } catch (InventoryException e) {</b>
+<b class="nc"><i>200</i>&nbsp;        	System.out.println(&quot;Inventory was not added&quot;);</b>
+<i>201</i>&nbsp;        } finally {
+<b class="nc"><i>202</i>&nbsp;        	mainMenu();</b>
+<b class="nc"><i>203</i>&nbsp;        }</b>
+<i>204</i>&nbsp;    }
+<i>205</i>&nbsp;    
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Check inventory user interface that processes input.
+<i>208</i>&nbsp;     */
+<i>209</i>&nbsp;    public static void checkInventory() {
+<b class="nc"><i>210</i>&nbsp;    	System.out.println(coffeeMaker.checkInventory());</b>
+<b class="nc"><i>211</i>&nbsp;    	mainMenu();</b>
+<i>212</i>&nbsp;    }
+<i>213</i>&nbsp;    
+<i>214</i>&nbsp;    /**
+<i>215</i>&nbsp;     * Make coffee user interface the processes input.
+<i>216</i>&nbsp;     */
+<i>217</i>&nbsp;    public static void makeCoffee() {
+<b class="nc"><i>218</i>&nbsp;        Recipe [] recipes = coffeeMaker.getRecipes();</b>
+<b class="nc"><i>219</i>&nbsp;        for(int i = 0; i &lt; recipes.length; i++) {</b>
+<b class="nc"><i>220</i>&nbsp;        	if (recipes[i] != null) {</b>
+<b class="nc"><i>221</i>&nbsp;        		System.out.println((i+1) + &quot;. &quot; + recipes[i].getName());</b>
+<i>222</i>&nbsp;        	}
+<i>223</i>&nbsp;        }
+<i>224</i>&nbsp;        
+<b class="nc"><i>225</i>&nbsp;        int recipeToPurchase = recipeListSelection(&quot;Please select the number of the recipe to purchase.&quot;);</b>
+<i>226</i>&nbsp;        
+<b class="nc"><i>227</i>&nbsp;        String amountPaid = inputOutput(&quot;Please enter the amount you wish to pay&quot;);</b>
+<b class="nc"><i>228</i>&nbsp;        int amtPaid = 0;</b>
+<i>229</i>&nbsp;        try {
+<b class="nc"><i>230</i>&nbsp;        	amtPaid = Integer.parseInt(amountPaid);</b>
+<b class="nc"><i>231</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc"><i>232</i>&nbsp;        	System.out.println(&quot;Please enter a positive integer&quot;);</b>
+<b class="nc"><i>233</i>&nbsp;        	mainMenu();</b>
+<b class="nc"><i>234</i>&nbsp;        }</b>
+<i>235</i>&nbsp;        
+<b class="nc"><i>236</i>&nbsp;        int change = coffeeMaker.makeCoffee(recipeToPurchase, amtPaid);</b>
+<i>237</i>&nbsp;        
+<b class="nc"><i>238</i>&nbsp;        if (change == amtPaid) {</b>
+<b class="nc"><i>239</i>&nbsp;        	System.out.println(&quot;Insufficient funds to purchase.&quot;);</b>
+<i>240</i>&nbsp;        } else {
+<b class="nc"><i>241</i>&nbsp;        	System.out.println(&quot;Thank you for purchasing &quot; + coffeeMaker.getRecipes()[recipeToPurchase].getName());</b>
+<i>242</i>&nbsp;        }
+<b class="nc"><i>243</i>&nbsp;        System.out.println(&quot;Your change is: &quot; + change + &quot;\n&quot;);</b>
+<b class="nc"><i>244</i>&nbsp;        mainMenu();</b>
+<i>245</i>&nbsp;    }
+<i>246</i>&nbsp;    
+<i>247</i>&nbsp;    /**
+<i>248</i>&nbsp;     * Passes a prompt to the user and returns the user specified 
+<i>249</i>&nbsp;     * string.
+<i>250</i>&nbsp;     * @param message
+<i>251</i>&nbsp;     * @return String
+<i>252</i>&nbsp;     */
+<i>253</i>&nbsp;    private static String inputOutput(String message) {
+<b class="nc"><i>254</i>&nbsp;        System.out.println(message);</b>
+<b class="nc"><i>255</i>&nbsp;	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="nc"><i>256</i>&nbsp;	    String returnString = &quot;&quot;;</b>
+<i>257</i>&nbsp;	    try {
+<b class="nc"><i>258</i>&nbsp;	        returnString = br.readLine();</b>
+<i>259</i>&nbsp;	    }
+<b class="nc"><i>260</i>&nbsp;	    catch (IOException e){</b>
+<b class="nc"><i>261</i>&nbsp;	        System.out.println(&quot;Error reading in value&quot;);</b>
+<b class="nc"><i>262</i>&nbsp;	        mainMenu();</b>
+<b class="nc"><i>263</i>&nbsp;	    }</b>
+<b class="nc"><i>264</i>&nbsp;	    return returnString;</b>
+<i>265</i>&nbsp;    }
+<i>266</i>&nbsp;    
+<i>267</i>&nbsp;    /**
+<i>268</i>&nbsp;     * Passes a prompt to the user that deals with the recipe list
+<i>269</i>&nbsp;     * and returns the user selected number.
+<i>270</i>&nbsp;     * @param message
+<i>271</i>&nbsp;     * @return int
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;    private static int recipeListSelection(String message) {
+<b class="nc"><i>274</i>&nbsp;    	String userSelection = inputOutput(message);</b>
+<b class="nc"><i>275</i>&nbsp;    	int recipe = 0;</b>
+<i>276</i>&nbsp;        try {
+<b class="nc"><i>277</i>&nbsp;        	recipe = Integer.parseInt(userSelection) - 1;</b>
+<b class="nc"><i>278</i>&nbsp;        	if (recipe &gt;= 0 &amp;&amp; recipe &lt;=2) {</b>
+<i>279</i>&nbsp;        		//do nothing here.
+<i>280</i>&nbsp;        	} else {
+<b class="nc"><i>281</i>&nbsp;        		recipe = -1;</b>
+<i>282</i>&nbsp;        	}
+<b class="nc"><i>283</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc"><i>284</i>&nbsp;        	System.out.println(&quot;Please select a number from 1-3.&quot;);</b>
+<b class="nc"><i>285</i>&nbsp;        	recipe = -1;</b>
+<b class="nc"><i>286</i>&nbsp;        }</b>
+<b class="nc"><i>287</i>&nbsp;        return recipe;</b>
+<i>288</i>&nbsp;    }
+<i>289</i>&nbsp;    
+<i>290</i>&nbsp;    /**
+<i>291</i>&nbsp;     * Starts the coffee maker program.
+<i>292</i>&nbsp;     * @param args
+<i>293</i>&nbsp;     */
+<i>294</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>295</i>&nbsp;	    coffeeMaker = new CoffeeMaker();</b>
+<b class="nc"><i>296</i>&nbsp;	    System.out.println(&quot;Welcome to the CoffeeMaker!\n&quot;);</b>
+<b class="nc"><i>297</i>&nbsp;	    mainMenu();</b>
+<i>298</i>&nbsp;	}
+<i>299</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-10 12:58</div>
+</div>
+</body>
+</html>
